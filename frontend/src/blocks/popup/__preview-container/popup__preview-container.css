@@ -1,0 +1,6 @@
+.popup__preview-container {
+  margin: auto;
+  position: fixed;
+  max-width: fit-content;
+  max-height: fit-content;
+}

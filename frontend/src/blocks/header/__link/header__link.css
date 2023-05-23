@@ -1,0 +1,17 @@
+.header__link {
+  color: var(--white);
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  text-align: right;
+  text-decoration: none;
+  transition: opacity 0.3s linear;
+}
+
+@media (max-width: 450px) {
+  .header__link {
+    display: none;
+  }
+}

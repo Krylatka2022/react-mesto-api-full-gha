@@ -1,0 +1,38 @@
+.element__delete {
+  background-image: url(../../../images/Trash.svg);
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-position: center;
+  width: 19px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  z-index: 2;
+  /* background-color: transparent;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: none;
+  cursor: pointer;
+  display: block;
+  flex-shrink: 0;
+  height: 19px;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  -webkit-transition: opacity 0.3s linear;
+  -o-transition: opacity 0.3s linear;
+  transition: opacity 0.3s linear;
+  width: 18px; */
+}
+
+.element__delete:hover {
+  opacity: 60%;
+}

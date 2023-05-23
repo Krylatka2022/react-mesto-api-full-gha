@@ -1,0 +1,32 @@
+.element__like {
+  background-image: url(../../../images/VectorHeart.svg);
+  background-repeat: no-repeat;
+  object-fit: cover;
+  width: 22px;
+  height: 19px;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
+  /*
+  -ms-flex-negative: 0;
+  background-color: transparent;
+
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: none;
+  cursor: pointer;
+  display: block;
+  flex-shrink: 0;
+  height: 19px;
+  margin-bottom: 3px;
+  -webkit-transition: opacity 0.3s linear;
+  -o-transition: opacity 0.3s linear;
+  transition: opacity 0.3s linear;
+  width: 22px; */
+}
+
+.element__like:hover {
+  opacity: 50%;
+}

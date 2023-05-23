@@ -1,0 +1,16 @@
+.profile__title-button {
+  display: flex;
+  max-width: 100%;
+  gap: 18px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (max-width: 400px) {
+  .profile__title-button {
+    justify-content: center;
+    max-width: 282px;
+    padding-left: 26px;
+    gap: 10px;
+  }
+}

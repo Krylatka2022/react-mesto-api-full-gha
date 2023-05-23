@@ -1,0 +1,5 @@
+.register__link {
+  color: var(--white);
+  text-decoration: none;
+  transition: opacity 0.3s linear;
+}

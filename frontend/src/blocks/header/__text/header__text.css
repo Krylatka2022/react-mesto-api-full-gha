@@ -1,0 +1,22 @@
+.header__text {
+  margin: 0;
+  color: #fff;
+  text-align: right;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  margin-right: 24px;
+}
+
+@media screen and (min-width: 768px) {
+  .header__text {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+
+@media (max-width: 450px) {
+  .header__text {
+    display: none;
+  }
+}
