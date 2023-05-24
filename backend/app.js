@@ -1,16 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const routes = require('./routes/index');
 const errorHandler = require('./middlewares/errorHandler');
 const { createUser, login } = require('./controllers/users');
-// const auth = require('./middlewares/auth');
 const { validationSignIn, validationSignUp } = require('./middlewares/validation');
 
 const app = express();
 
+app.use(cors());
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // за 15 минут
   max: 100, // можно совершить максимум 100 запросов с одного IP
