@@ -4,21 +4,17 @@
 
 Пожалуйста, прикрепите в это описание ссылку на сайт, размещенный на Яндекс.Облаке.
 
-Адрес репозитория: https://github.com/...
+Адрес репозитория: https://github.com/Krylatka2022/react-mesto-api-full-gha.git
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP-адрес 158.160.98.156
 
-Frontend https://...
+Frontend https://krylatka.nomoredomains.rocks
 
-Backend https://...
+Backend https://api-krylatka.nomoredomains.rocks
 
-### MЕСТО-РЕАКТ-АВТОРИЗАЦИЯ ([Mesto-react-auth](https://krylatka2022.github.io/react-mesto-auth/))
-
-Данный проект является точной копией проекта **[Mesto](https://krylatka2022.github.io/Mesto/)** и **[Mesto-react](https://krylatka2022.github.io/Mesto-react/)**, его реализация выполнена на **_React_**. Дополнен проект авторизацией пользователя и валидацией полей форм input.
-
-Это учебный проект по основам React на курсе "веб-разработчик" в Яндекс.Практикуме. Процесс выполнения данной работы состоит из нескольких двухнедельных спринтов (10-12 спринты), поэтому с каждым спринтом код меняется и дополняется.
+### MЕСТО-РЕАКТ-FULLSTACK ([react-mesto-api-full-gha](https://github.com/Krylatka2022/react-mesto-api-full-gha))
 
 Мои предыдущие учебные работы:
 
@@ -26,6 +22,8 @@ Backend https://...
 - "Путешествие по России" ([Russian-travel](https://krylatka2022.github.io/Russian-travel/)) - 2-3 спринты;
 - "МЕСТО" ([Mesto](https://krylatka2022.github.io/Mesto/)) - 4-9 спринты;
 - "Mесто-реакт" ([Mesto-react](https://krylatka2022.github.io/Mesto-react/)) - 10-11 спринты;
+- "Mесто-реакт-авторизация" ([Mesto-react-auth](https://krylatka2022.github.io/react-mesto-auth/)) - 12 спринт;
+- "Mесто-backend" ([Проект Mesto фронтенд + бэкенд](https://github.com/Krylatka2022/express-mesto-gha.git)) - 13-14 спринты
 
 ### Стек технологий:
 
@@ -34,6 +32,8 @@ Backend https://...
 - JavaScript
 - React
 - API
+- Express
+- MongoDB
 
 ### Фукционал:
 
