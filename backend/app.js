@@ -31,6 +31,7 @@ const { PORT = 3000 } = process.env;
 
 // mongoose.connect(DB_ADRESS);
 // подключаем мидлвары, роуты и всё остальное...
+app.use(requestLogger);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -43,8 +44,6 @@ app.post('/signin', validationSignIn, login);
 
 app.use(limiter);
 // app.use(auth);
-
-app.use(requestLogger);
 
 app.use(routes);
 
