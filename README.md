@@ -8,7 +8,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 158.160.98.156
+IP 158.160.98.156
 
 Frontend https://krylatka.nomoredomains.rocks
 
