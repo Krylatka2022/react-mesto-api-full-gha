@@ -18,7 +18,7 @@ const auth = (req, res, next) => {
   // const token = authorization.split('Bearer ')[1];
   let payload;
   try {
-    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'secret-key');
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
   } catch (err) {
     return handleUnauthorized(req, res, next);
   }
