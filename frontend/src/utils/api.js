@@ -1,9 +1,11 @@
-import { token, cohort } from "./dataAutorization";
+import { BASE_URL } from "./auth";
 
 class Api {
-	constructor({ baseUrl, headers }) {
-		this._baseUrl = baseUrl;
-		this._headers = headers;
+	constructor() {
+		// this._baseUrl = 'https://api-krylatka.nomoredomains.rocks';
+		this._baseUrl = 'http://localhost:3000';
+		// this._headers = headers;
+		// this._token = localStorage.getItem('jwt');
 	}
 
 	_checkResponse(res) {
@@ -13,17 +15,31 @@ class Api {
 			return Promise.reject(`${res.status} ${res.statusText}`);
 		}
 	}
+
+	// _headersStorage = () => {
+	// 	this._token = localStorage.getItem('jwt');
+	// 	this._headers.authorization = `Bearer ${this._token}`
+	// 	return this._headers;
+	// }
+
 	getUserInfo() {
 		return fetch(`${this._baseUrl}/users/me`, {
 			method: "GET",
-			headers: this._headers,
+			credentials: 'include',
 		}).then(this._checkResponse);
 	}
 
 	changeUserInfo(items) {
+		// const token = localStorage.getItem('jwt');
 		return fetch(`${this._baseUrl}/users/me`, {
 			method: "PATCH",
-			headers: this._headers,
+			credentials: 'include',
+			// headers: {
+			// 	autorization: `Bearer ${token}`,
+			// }, 
+			headers: {
+				'Content-Type': 'application/json',
+			},
 			body: JSON.stringify({
 				name: items.name,
 				about: items.about,
@@ -34,54 +50,83 @@ class Api {
 	changeUserAvatar(items) {
 		return fetch(`${this._baseUrl}/users/me/avatar`, {
 			method: "PATCH",
-			headers: this._headers,
-			body: JSON.stringify({ avatar: items.avatar, }),
+			credentials: 'include',
+			// headers: this._headers,
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ avatar: items.avatar }),
 		}).then(this._checkResponse);
 	}
 
 	getInitialCards() {
+		// const token = localStorage.getItem('jwt');
 		return fetch(`${this._baseUrl}/cards`, {
-			headers: this._headers,
-		}).then(this._checkResponse);
+			credentials: 'include',
+			// {
+			// headers: {
+			// 	autorization: `Bearer ${token}`,
+			// }
+		})
+			.then(this._checkResponse);
 	}
 
-	addCard(items) {
+	addCard({ name, link }) {
+		// const token = localStorage.getItem('jwt');
 		return fetch(`${this._baseUrl}/cards`, {
 			method: "POST",
-			headers: this._headers,
+			credentials: 'include',
+			headers: {
+				// autorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+			},
 			body: JSON.stringify({
-				name: items.name,
-				link: items.link,
+				// name: items.name,
+				// link: items.link,
+				name, link,
 			}),
 		}).then(this._checkResponse);
 	}
 
 	deleteCard(id) {
+		// const token = localStorage.getItem('jwt');
 		return fetch(`${this._baseUrl}/cards/${id}`, {
 			method: "DELETE",
-			headers: this._headers,
+			credentials: 'include',
+			// headers: {
+			// 	autorization: `Bearer ${token}`,
+			// }
 		}).then(this._checkResponse);
 	}
 
-	addLike(id) {
-		return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+	addLike(cardId) {
+		// const token = localStorage.getItem('jwt');
+		return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
 			method: "PUT",
-			headers: this._headers,
+			credentials: 'include',
+			// headers: {
+			// 	autorization: `Bearer ${token}`,
+			// }
 		}).then(this._checkResponse);
 	}
 
-	deleteLike(id) {
-		return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+	deleteLike(cardId) {
+		// const token = localStorage.getItem('jwt');
+		return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
 			method: "DELETE",
-			headers: this._headers,
+			credentials: 'include',
+			headers: {
+				// autorization: `Bearer ${token}`,
+				'Content-Type': 'application/json'
+			}
 		}).then(this._checkResponse);
 	}
 }
 /** Подключить API */
 const api = new Api({
-	baseUrl: `https://mesto.nomoreparties.co/v1/${cohort}`,
+	baseUrl: BASE_URL,
 	headers: {
-		'Authorization': token,
+		'Accept': 'application/json',
 		'Content-Type': 'application/json'
 	}
 });

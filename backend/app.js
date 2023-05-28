@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const rateLimit = require('express-rate-limit');
+// const rateLimit = require('express-rate-limit');
 const routes = require('./routes/index');
 const errorHandler = require('./middlewares/errorHandler');
 const { createUser, login } = require('./controllers/users');
@@ -13,11 +13,11 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 
-app.use(cors());
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // за 15 минут
-  max: 100, // можно совершить максимум 100 запросов с одного IP
-});
+app.use(cors({ origin: ['http://localhost:3001', 'http://localhost:3000', 'https://api-krylatka.nomoredomains.rocks', 'https://krylatka.nomoredomains.rocks', 'http://krylatka.nomoredomains.rocks', '*'], credentials: true }));
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // за 15 минут
+//   max: 100, // можно совершить максимум 100 запросов с одного IP
+// });
 // подключаемся к серверу mongo
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
@@ -42,7 +42,7 @@ app.get('/crash-test', () => {
 app.post('/signup', validationSignUp, createUser);
 app.post('/signin', validationSignIn, login);
 
-app.use(limiter);
+// app.use(limiter);
 // app.use(auth);
 
 app.use(routes);

@@ -41,7 +41,7 @@ function App() {
     auth.register(email, password)
       .then((res) => {
         // сохраняем токен и email в localStorage
-        localStorage.setItem('jwt', res.jwt);
+        localStorage.setItem('token', res.token);
         localStorage.setItem('email', res.email);
         setPopupStatus({
           image: UnionBlack,
@@ -50,7 +50,7 @@ function App() {
         navigate("/sign-in");
         // обновляем стейт isLoggedIn и setIsEmail
         setIsLoggedIn(true);
-        setIsEmail(res.data.email);
+        setIsEmail(res.email);
       })
       .catch(() => {
         setPopupStatus({
@@ -68,7 +68,7 @@ function App() {
     auth.authorize(email, password)
       .then((res) => {
         // сохраняем токен и email в localStorage
-        localStorage.setItem('jwt', res.token);
+        localStorage.setItem('token', res.token);
         localStorage.setItem('email', res.email);
         // обновляем стейт isLoggedIn и currentUser
         setIsLoggedIn(true);
@@ -81,17 +81,29 @@ function App() {
       });
   };
 
+  // Получение данных текущего пользователя и начальных карточек
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([data, items]) => {
+        setCurrentUser(data);
+        setCards(items.reverse());
+      }).catch((err) => {
+        console.error(err);
+      });
+    }
+  }, [isLoggedIn]);
   // Проверка токена и авторизация пользователя
   useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
+    const token = localStorage.getItem('token');
+    if (token) {
       // отправляем запрос на сервер для проверки токена
-      auth.checkToken(jwt)
+      auth.checkToken(token)
         .then((res) => {
           // если токен действителен, обновляем стейт isLoggedIn и currentUser
           if (res) {
             setIsLoggedIn(true);
-            setIsEmail(res.data.email);
+            setIsEmail(res.email);
             navigate("/");
           }
         })
@@ -99,9 +111,10 @@ function App() {
     }
   }, [navigate]);
 
+
   const handleLogOut = () => {
     // очищаем localStorage и обновляем стейт isLoggedIn и setIsEmail
-    localStorage.removeItem('jwt');
+    localStorage.removeItem('token');
     localStorage.removeItem('email');
     setIsLoggedIn(false);
     setIsEmail(null);
@@ -112,20 +125,9 @@ function App() {
     setIsInfoTooltipPopupOpen(true);
   };
 
-  // Получение данных текущего пользователя и начальных карточек
-  useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([data, items]) => {
-      setCurrentUser(data);
-      setCards(items);
-    }).catch((err) => {
-      console.error(err);
-    });
-  }, []);
-
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
+    const isLiked = card.likes.some((like) => like._id === currentUser._id);
     // Отправляем запрос в API и получаем обновлённые данные карточки
     if (!isLiked) {
       api.addLike(card._id).then((newCard) => {
@@ -141,6 +143,7 @@ function App() {
       });
     }
   }
+
 
   function handleCardDelete(card) {
     api.deleteCard(card._id).then(() => {

@@ -19,7 +19,7 @@ function getUserMe(req, res, next) {
     .orFail(() => {
       throw new NotFoundError('Пользователь не найден');
     })
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные'));
@@ -37,7 +37,7 @@ const getUserById = (req, res, next) => {
   User.findById(userId)
     .then((user) => {
       if (user) {
-        res.send({ data: user });
+        res.send(user);
       } else {
         throw new NotFoundError('Пользователь по указанному _id не найден');
       }
@@ -61,7 +61,7 @@ const createUser = (req, res, next) => {
         .create({
           name, about, avatar, email, password: hash,
         })
-        .then((user) => res.status(StatusCodes.CREATED).send({ data: user }))
+        .then((user) => res.status(StatusCodes.CREATED).send(user))
         .catch((err) => {
           if (err.name === 'ValidationError') {
             next(new BadRequestError('Переданы некорректные данные при создании пользователя '));
@@ -82,7 +82,7 @@ const updateUser = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь по указанному _id не найден');
       }
-      return res.status(200).send({ data: user });
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
@@ -100,7 +100,7 @@ const updateAvatar = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь по указанному _id не найден');
       }
-      return res.status(200).send({ data: user });
+      return res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -117,17 +117,24 @@ const login = (req, res, next) => {
     .findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'secret-key', { expiresIn: '7d' });
+
+      // Рабочий код
       res
         .cookie('jwt', token, {
           maxAge: 3600000,
           httpOnly: true,
           sameSite: true,
         })
-        .send({ token });
+        // .send({ token });
+        .send(user.toJSON());
     })
     .catch(next);
 };
 
+//       res.status(200).send({ token });
+//     })
+//     .catch(next);
+// };
 // Экспорт модулей
 module.exports = {
   getUsers,
