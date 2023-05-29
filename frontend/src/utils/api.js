@@ -135,7 +135,6 @@ class Api {
 const api = new Api
 	// ('https://api-krylatka.nomoredomains.rocks');
 
-
 	({
 		baseUrl: BASE_URL,
 		headers: {

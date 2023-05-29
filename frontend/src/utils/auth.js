@@ -55,6 +55,7 @@ export const checkToken = () => {
     },
   }).then(checkResponse);
 };
+
 // export const checkToken = (token) => {
 //   if (!token) {
 //     return Promise.reject(new Error('Token not found'));

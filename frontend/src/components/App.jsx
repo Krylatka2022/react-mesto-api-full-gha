@@ -35,6 +35,7 @@ function App() {
 
   const navigate = useNavigate();
 
+
   // Регистрация пользователя
   const handleRegister = (email, password) => {
     // отправляем запрос на сервер для регистрации пользователя
