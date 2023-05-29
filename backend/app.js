@@ -12,16 +12,34 @@ const { validationSignIn, validationSignUp } = require('./middlewares/validation
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
+// app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3001',
+    'http://localhost:3000',
+    'https://api-krylatka.nomoredomains.rocks',
+    'http://api-krylatka.nomoredomains.rocks',
+    'https://krylatka.nomoredomains.rocks',
+    'http://krylatka.nomoredomains.rocks'],
+  credentials: true,
+}));
+// app.use(cors());
+// const corsOptions = {
+//   origin: '*',
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+//   preflightContinue: false,
+//   optionsSuccessStatus: 204,
+// };
+// app.use(cors(corsOptions));
 
-app.use(cors({ origin: ['http://localhost:3001', 'http://localhost:3000', 'https://api-krylatka.nomoredomains.rocks', 'https://krylatka.nomoredomains.rocks', 'http://krylatka.nomoredomains.rocks', '*'], credentials: true }));
-// const limiter = rateLimit({
+//  const limiter = rateLimit({
 //   windowMs: 15 * 60 * 1000, // за 15 минут
 //   max: 100, // можно совершить максимум 100 запросов с одного IP
 // });
 // подключаемся к серверу mongo
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
-  //   // suseUnifiedTopology: true,
+  // suseUnifiedTopology: true,
 });
 
 app.use(express.json());

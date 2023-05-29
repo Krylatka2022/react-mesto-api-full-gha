@@ -117,24 +117,26 @@ const login = (req, res, next) => {
     .findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
-
+      // const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'secret-key', { expiresIn: '7d' });
       // Рабочий код
       res
-        .cookie('jwt', token, {
-          maxAge: 3600000,
+        .cookie('token', token, {
+          maxAge: 3600000 * 24 * 7,
           httpOnly: true,
           sameSite: true,
+          // secure: true,
         })
-        // .send({ token });
-        .send(user.toJSON());
+        .send({ token });
+      // .send(user.toJSON());
+      //     })
+      //     .catch(next);
+      // };
+
+      // res.status(200).send({ token });
+      // res.status(200).send({ _id: user._id, message: 'Авторизация прошла успешно' });
     })
     .catch(next);
 };
-
-//       res.status(200).send({ token });
-//     })
-//     .catch(next);
-// };
 // Экспорт модулей
 module.exports = {
   getUsers,

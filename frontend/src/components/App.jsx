@@ -42,7 +42,7 @@ function App() {
       .then((res) => {
         // сохраняем токен и email в localStorage
         localStorage.setItem('token', res.token);
-        localStorage.setItem('email', res.email);
+        // localStorage.setItem('email', res.email);
         setPopupStatus({
           image: UnionBlack,
           message: 'Вы успешно зарегистрировались!'
@@ -69,10 +69,10 @@ function App() {
       .then((res) => {
         // сохраняем токен и email в localStorage
         localStorage.setItem('token', res.token);
-        localStorage.setItem('email', res.email);
+        // localStorage.setItem('email', res.email);
         // обновляем стейт isLoggedIn и currentUser
         setIsLoggedIn(true);
-        setIsEmail(email);
+        setIsEmail(res.email);
         navigate("/")
       })
       .catch((err) => {
@@ -81,41 +81,11 @@ function App() {
       });
   };
 
-  // Получение данных текущего пользователя и начальных карточек
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([data, items]) => {
-        setCurrentUser(data);
-        setCards(items.reverse());
-      }).catch((err) => {
-        console.error(err);
-      });
-    }
-  }, [isLoggedIn]);
-  // Проверка токена и авторизация пользователя
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // отправляем запрос на сервер для проверки токена
-      auth.checkToken(token)
-        .then((res) => {
-          // если токен действителен, обновляем стейт isLoggedIn и currentUser
-          if (res) {
-            setIsLoggedIn(true);
-            setIsEmail(res.email);
-            navigate("/");
-          }
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [navigate]);
-
 
   const handleLogOut = () => {
     // очищаем localStorage и обновляем стейт isLoggedIn и setIsEmail
-    localStorage.removeItem('token');
-    localStorage.removeItem('email');
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('email');
     setIsLoggedIn(false);
     setIsEmail(null);
     navigate("/");
@@ -203,6 +173,44 @@ function App() {
     setIsConfirmationPopupOpen(false);
     setIsInfoTooltipPopupOpen(false);
   }
+
+  // Получение данных текущего пользователя и начальных карточек
+  useEffect(() => {
+    const token = localStorage.getItem('userId');
+    if (token) {
+      // if (isLoggedIn) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([data, items]) => {
+        setCurrentUser(data);
+        setCards(items.reverse());
+      }).catch((err) => {
+        console.error(err);
+      });
+    }
+  }, [isLoggedIn]);
+  // Проверка токена и авторизация пользователя
+  useEffect(() => {
+    const token = localStorage.getItem('userId');
+    if (token) {
+      // отправляем запрос на сервер для проверки токена
+      auth.checkToken(token)
+        .then((res) => {
+          // если токен действителен, обновляем стейт isLoggedIn и currentUser
+          // if (res) {
+          setIsLoggedIn(true);
+          // setIsEmail(res.email); - не мешало вроде
+          navigate("/");
+          // navigate('/', { replace: true });
+          // }
+        })
+        .catch((err) => {
+          //перестала предварительная onauthorized вылезать
+          localStorage.removeItem('userId');
+          console.log(err);
+        });
+    }
+  },
+    [navigate]);
+  // [isLoggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
