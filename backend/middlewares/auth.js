@@ -9,7 +9,7 @@ const handleUnauthorized = (req, res, next) => next(new AuthError('Необхо�
 // res.status(StatusCodes.UNAUTHORIZED).send({ message: 'Необходима авторизация' });
 
 const auth = (req, res, next) => {
-  const token = req.cookies.jwt;
+  const { token } = req.cookies;
   // - рабочий код!!
   // const { authorization } = req.headers;
   // if (!authorization.startsWith('Bearer ')) {

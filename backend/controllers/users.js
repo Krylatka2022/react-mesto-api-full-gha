@@ -124,8 +124,8 @@ const login = (req, res, next) => {
         .cookie('token', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
-          sameSite: true,
-          // secure: true,
+          sameSite: 'none',
+          secure: true,
         })
         .send({ token });
       // .send(user.toJSON());
@@ -133,11 +133,21 @@ const login = (req, res, next) => {
       //     .catch(next);
       // };
 
-      // res.status(200).send({ token });
-      // res.status(200).send({ _id: user._id, message: 'Авторизация прошла успешно' });
+      //       // res.status(200).send({ token });
+      //       // res.status(200).send({ _id: user._id, message: 'Авторизация прошла успешно' });
     })
     .catch(next);
 };
+//       res.cookie('jwt', token, {
+//         maxAge: 3600000 * 7 * 24,
+//         httpOnly: true,
+//         sameSite: true,
+//       });
+//       res.send({ token });
+//     })
+//     .catch(next);
+// };
+
 // Экспорт модулей
 module.exports = {
   getUsers,

@@ -34,7 +34,7 @@ export const authorize = (email, password) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
-    // sameSite: 'none',
+    sameSite: 'none',
   })
     .then(checkResponse)
     .then((data) => {

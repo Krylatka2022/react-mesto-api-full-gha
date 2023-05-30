@@ -44,6 +44,7 @@ function App() {
         // сохраняем токен и email в localStorage
         localStorage.setItem('token', res.token);
         // localStorage.setItem('email', res.email);
+        // localStorage.setItem('userId', res._id);
         setPopupStatus({
           image: UnionBlack,
           message: 'Вы успешно зарегистрировались!'
@@ -71,6 +72,7 @@ function App() {
         // сохраняем токен и email в localStorage
         localStorage.setItem('token', res.token);
         // localStorage.setItem('email', res.email);
+        // localStorage.setItem('userId', res._id);
         // обновляем стейт isLoggedIn и currentUser
         setIsLoggedIn(true);
         setIsEmail(res.email);
