@@ -21,9 +21,10 @@ app.use(cors({
     'https://krylatka.nomoredomains.rocks',
     'http://krylatka.nomoredomains.rocks'],
   credentials: true,
-  preflightContinue: true,
+  preflightContinue: false,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   allowedHeaders: ['Content-Type', 'Authorization', 'Origin'],
+  optionsSuccessStatus: 204,
 }));
 // app.use(cors());
 // const corsOptions = {
