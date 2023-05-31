@@ -44,7 +44,7 @@ function App() {
         // сохраняем токен и email в localStorage
         // localStorage.setItem('token', res.token);
         // localStorage.setItem('email', res.email);
-        // localStorage.setItem('userId', res._id);
+        localStorage.setItem('userId', res._id);
         setPopupStatus({
           image: UnionBlack,
           message: 'Вы успешно зарегистрировались!'
@@ -72,7 +72,7 @@ function App() {
         // сохраняем токен и email в localStorage
         // localStorage.setItem('token', res.token);
         // localStorage.setItem('email', res.email);
-        // localStorage.setItem('userId', res._id);
+        localStorage.setItem('userId', res._id);
         // обновляем стейт isLoggedIn и currentUser
         setIsLoggedIn(true);
         setIsEmail(res.email);
@@ -89,6 +89,7 @@ function App() {
     // очищаем localStorage и обновляем стейт isLoggedIn и setIsEmail
     // localStorage.removeItem('token');
     // localStorage.removeItem('email');
+    localStorage.removeItem('userId');
     setIsLoggedIn(false);
     setIsEmail(null);
     navigate("/");
@@ -200,9 +201,9 @@ function App() {
           // если токен действителен, обновляем стейт isLoggedIn и currentUser
           // if (res) {
           setIsLoggedIn(true);
-          // setIsEmail(res.email); - не мешало вроде
-          navigate("/");
-          // navigate('/', { replace: true });
+          setIsEmail(res.email);
+          // navigate("/");
+          navigate('/', { replace: true });
           // }
         })
         .catch((err) => {
