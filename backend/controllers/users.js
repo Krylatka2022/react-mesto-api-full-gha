@@ -126,6 +126,8 @@ const login = (req, res, next) => {
           httpOnly: true,
           sameSite: 'none',
           secure: true,
+          // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'Lax',
+          // secure: process.env.NODE_ENV === 'production',
         })
         .send({ token });
       // .send(user.toJSON());

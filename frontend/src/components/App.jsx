@@ -42,7 +42,7 @@ function App() {
     auth.register(email, password)
       .then((res) => {
         // сохраняем токен и email в localStorage
-        localStorage.setItem('token', res.token);
+        // localStorage.setItem('token', res.token);
         // localStorage.setItem('email', res.email);
         // localStorage.setItem('userId', res._id);
         setPopupStatus({
@@ -70,7 +70,7 @@ function App() {
     auth.authorize(email, password)
       .then((res) => {
         // сохраняем токен и email в localStorage
-        localStorage.setItem('token', res.token);
+        // localStorage.setItem('token', res.token);
         // localStorage.setItem('email', res.email);
         // localStorage.setItem('userId', res._id);
         // обновляем стейт isLoggedIn и currentUser
