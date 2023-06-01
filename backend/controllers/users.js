@@ -123,24 +123,9 @@ const login = (req, res, next) => {
         })
         // .send({ token });
         .send(user.toJSON());
-      //     })
-      //     .catch(next);
-      // };
-
-      //       // res.status(200).send({ token });
-      //       // res.status(200).send({ _id: user._id, message: 'Авторизация прошла успешно' });
     })
     .catch(next);
 };
-//       res.cookie('jwt', token, {
-//         maxAge: 3600000 * 7 * 24,
-//         httpOnly: true,
-//         sameSite: true,
-//       });
-//       res.send({ token });
-//     })
-//     .catch(next);
-// };
 
 // Экспорт модулей
 module.exports = {

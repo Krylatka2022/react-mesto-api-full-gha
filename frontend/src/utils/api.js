@@ -59,12 +59,10 @@ class Api {
 	}
 
 	addCard({ name, link }) {
-		// const token = localStorage.getItem('jwt');
 		return fetch(`${this._baseUrl}/cards`, {
 			method: "POST",
 			credentials: 'include',
 			headers: {
-				// autorization: `Bearer ${token}`,
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({

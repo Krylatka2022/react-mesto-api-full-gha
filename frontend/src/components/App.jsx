@@ -44,15 +44,17 @@ function App() {
         // сохраняем токен и email в localStorage
         // localStorage.setItem('token', res.token);
         // localStorage.setItem('email', res.email);
-        localStorage.setItem('userId', res._id);
-        setPopupStatus({
-          image: UnionBlack,
-          message: 'Вы успешно зарегистрировались!'
-        });
-        navigate("/sign-in");
-        // обновляем стейт isLoggedIn и setIsEmail
-        setIsLoggedIn(true);
-        setIsEmail(res.email);
+        if (res) {
+          // localStorage.setItem('userId', res._id);
+          setPopupStatus({
+            image: UnionBlack,
+            message: 'Вы успешно зарегистрировались!'
+          });
+          navigate("/sign-in");
+          // обновляем стейт isLoggedIn и setIsEmail
+          setIsLoggedIn(true);
+          setIsEmail(res.email);
+        }
       })
       .catch(() => {
         setPopupStatus({
@@ -69,6 +71,7 @@ function App() {
     // отправляем запрос на сервер для авторизации пользователя
     auth.authorize(email, password)
       .then((res) => {
+        // if (data._id) {
         // сохраняем токен и email в localStorage
         // localStorage.setItem('token', res.token);
         // localStorage.setItem('email', res.email);
@@ -77,6 +80,7 @@ function App() {
         setIsLoggedIn(true);
         setIsEmail(res.email);
         navigate("/")
+        // }
       })
       .catch((err) => {
         setPopupStatus({ image: UnionRed, message: 'Что-то пошло не так! Попробуйте еще раз.' });
@@ -92,7 +96,9 @@ function App() {
     localStorage.removeItem('userId');
     setIsLoggedIn(false);
     setIsEmail(null);
-    navigate("/");
+    setCards([]);
+    navigate('/', { replace: true });
+    // navigate("/sign-in");
   };
 
   function handleInfoTooltip() {
@@ -104,7 +110,7 @@ function App() {
     const isLiked = card.likes.some((like) => like._id === currentUser._id);
     // Отправляем запрос в API и получаем обновлённые данные карточки
     if (!isLiked) {
-      api.addLike(card._id).then((newCard) => {
+      api.addLike(card._id, isLiked).then((newCard) => {
         setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
       }).catch((err) => {
         console.error(err);
@@ -180,8 +186,8 @@ function App() {
 
   // Получение данных текущего пользователя и начальных карточек
   useEffect(() => {
-    const token = localStorage.getItem('userId');
-    if (token) {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
       // if (isLoggedIn) {
       Promise.all([api.getUserInfo(), api.getInitialCards()]).then(([data, items]) => {
         setCurrentUser(data);
@@ -190,21 +196,22 @@ function App() {
         console.error(err);
       });
     }
-  }, [isLoggedIn]);
+  }, [navigate]);
+
   // Проверка токена и авторизация пользователя
   useEffect(() => {
-    const token = localStorage.getItem('userId');
-    if (token) {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
       // отправляем запрос на сервер для проверки токена
-      auth.checkToken(token)
+      auth.checkToken(userId)
         .then((res) => {
           // если токен действителен, обновляем стейт isLoggedIn и currentUser
-          // if (res) {
-          setIsLoggedIn(true);
-          setIsEmail(res.email);
-          // navigate("/");
-          navigate('/', { replace: true });
-          // }
+          if (res) {
+            setIsLoggedIn(true);
+            setIsEmail(res.email);
+            // navigate("/");
+            navigate('/', { replace: true });
+          }
         })
         .catch((err) => {
           //перестала предварительная onauthorized вылезать
@@ -214,7 +221,6 @@ function App() {
     }
   },
     [navigate]);
-  // [isLoggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

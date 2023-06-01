@@ -1,5 +1,4 @@
 // export const BASE_URL = 'http://localhost:3000';
-//auth-utils
 export const BASE_URL = "https://api-krylatka.nomoredomains.rocks";
 
 
@@ -37,11 +36,11 @@ export const authorize = (email, password) => {
     sameSite: 'none',
   })
     .then(checkResponse)
-    .then((data) => {
-      localStorage.setItem('userId', data._id)
-      return data;
-    }
-    )
+  // .then((data) => {
+  //   localStorage.setItem('userId', data._id)
+  //   return data;
+  // }
+  // )
 };
 
 export const checkToken = () => {
