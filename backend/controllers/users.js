@@ -2,7 +2,6 @@
 const { StatusCodes } = require('http-status-codes');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
 const User = require('../models/user');
 const NotFoundError = require('../errors/notFound-error');
 const BadRequestError = require('../errors/badRequest-error');
@@ -15,8 +14,8 @@ const getUsers = (req, res, next) => {
     .catch(next);
 };
 
-function findUserById(userId, res, next) {
-  User.findById(userId)
+function getUserMe(req, res, next) {
+  User.findById(req.user._id)
     .orFail(() => {
       throw new NotFoundError('Пользователь не найден');
     })
@@ -24,17 +23,24 @@ function findUserById(userId, res, next) {
     .catch(next);
 }
 
-function getUserMe(req, res, next) {
-  findUserById(req.user._id, res, next);
-}
-
-function checkUser(req, res, next) {
+// Получить данные пользователя по id
+const getUserById = (req, res, next) => {
   const { userId } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(userId)) {
-    throw new BadRequestError('Переданы некорректные данные при поиске пользователя');
-  }
-  findUserById(userId, res, next);
-}
+  User.findById(userId)
+    .then((user) => {
+      if (user) {
+        res.send(user);
+      } else {
+        throw new NotFoundError('Пользователь по указанному _id не найден');
+      }
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        return next(new BadRequestError('Переданы некорректные данные при поиске пользователя'));
+      }
+      return next(err);
+    });
+};
 
 const createUser = (req, res, next) => {
   const {
@@ -61,9 +67,9 @@ const createUser = (req, res, next) => {
     .catch(next);
 };
 
-function updateUserFields(req, res, next, updateFunction) {
-  const { name, about, avatar } = req.body;
-  updateFunction(req.user._id, { name, about, avatar }, { new: true, runValidators: true })
+const updateUser = (req, res, next) => {
+  const { name, about } = req.body;
+  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Пользователь по указанному _id не найден');
@@ -77,15 +83,25 @@ function updateUserFields(req, res, next, updateFunction) {
         next(err);
       }
     });
-}
+};
 
-function updateUser(req, res, next) {
-  updateUserFields(req, res, next, User.findByIdAndUpdate);
-}
-
-function updateAvatar(req, res, next) {
-  updateUserFields(req, res, next, User.findByIdAndUpdate);
-}
+const updateAvatar = (req, res, next) => {
+  const { avatar } = req.body;
+  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('Пользователь по указанному _id не найден');
+      }
+      return res.status(200).send(user);
+    })
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные при обновлении аватара'));
+      } else {
+        next(err);
+      }
+    });
+};
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
@@ -115,9 +131,9 @@ const login = (req, res, next) => {
 module.exports = {
   getUsers,
   createUser,
+  getUserById,
   updateAvatar,
   updateUser,
   login,
   getUserMe,
-  checkUser,
 };
