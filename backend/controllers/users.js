@@ -20,15 +20,7 @@ function getUserMe(req, res, next) {
       throw new NotFoundError('Пользователь не найден');
     })
     .then((user) => res.status(200).send(user))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные'));
-      } else if (err.message === 'NotFound') {
-        next(new NotFoundError('Пользователь не найден'));
-      } else {
-        next(err);
-      }
-    });
+    .catch(next);
 }
 
 // Получить данные пользователя по id
@@ -121,7 +113,7 @@ const login = (req, res, next) => {
 
       // Рабочий код
       res
-        .cookie('token', token, {
+        .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
           sameSite: 'none',
@@ -129,8 +121,8 @@ const login = (req, res, next) => {
           // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'Lax',
           // secure: process.env.NODE_ENV === 'production',
         })
-        .send({ token });
-      // .send(user.toJSON());
+        // .send({ token });
+        .send(user.toJSON());
       //     })
       //     .catch(next);
       // };

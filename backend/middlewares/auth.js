@@ -10,13 +10,9 @@ const handleUnauthorized = (req, res, next) => next(new AuthError('Необхо�
 
 const auth = (req, res, next) => {
   const { token } = req.cookies;
-  // - рабочий код!!
-  // const { authorization } = req.headers;
-  // if (!authorization.startsWith('Bearer ')) {
-  //   return handleUnauthorized(req, res, next);
-  // }
-  // const token = authorization.split('Bearer ')[1];
-
+  if (!token) {
+    return handleUnauthorized(req, res, next);
+  }
   let payload;
   try {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');

@@ -12,28 +12,6 @@ const getCards = (req, res, next) => {
     .catch(next);
 };
 
-// const createCard = (req, res, next) => {
-//   const { name, link } = req.body;
-//   Card.create({ name, link, owner: req.user._id })
-//     .then((card) => Card.findByIdAndUpdate(
-//       { _id: card.id },
-//       { $push: { order: { $each: [card.id], $position: 0 } } },
-//       // добавляем id карточки в начало списка
-//       { new: true },
-//     )
-//       .populate(['owner', 'likes'])
-//       .then((populatedCard) => {
-//         res.status(StatusCodes.CREATED).send(populatedCard);
-//       }))
-//     .catch((err) => {
-//       if (err.name === 'ValidationError') {
-//         next(new BadRequestError('Переданы некорректные данные при создании карточки'));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
-
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
@@ -58,12 +36,13 @@ function deleteCardById(req, res, next) {
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Карточка с указанным _id не найдена');
-      } if (req.user._id !== card.owner._id.toString()) {
+      }
+      if (req.user._id !== card.owner._id.toString()) {
         throw new ForbiddenError('У вас нет прав на удаление данной карточки');
       }
-      Card.findByIdAndRemove(cardId)
-        .then(() => res.send({ message: 'Карточка удалена' }));
+      return Card.findByIdAndDelete(cardId);
     })
+    .then(() => res.send({ message: 'Карточка удалена' }))
     .catch(next);
 }
 
