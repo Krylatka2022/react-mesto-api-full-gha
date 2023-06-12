@@ -15,7 +15,7 @@ const app = express();
 // app.use(cors());
 app.use(cors({
   origin: ['http://localhost:3001',
-    'http://localhost:3000',
+    // 'http://localhost:3000',
     'https://api-krylatka.nomoredomains.rocks',
     'http://api-krylatka.nomoredomains.rocks',
     'https://krylatka.nomoredomains.rocks',
@@ -49,7 +49,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 app.use(express.json());
 app.use(cookieParser());
 // const { PORT = 3000, DB_ADRESS } = process.env;
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 // mongoose.connect(DB_ADRESS);
 // подключаем мидлвары, роуты и всё остальное...

@@ -77,7 +77,7 @@ const updateUser = (req, res, next) => {
       return res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
+      if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные при обновлении профиля'));
       } else {
         next(err);
@@ -109,7 +109,6 @@ const login = (req, res, next) => {
     .findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
-      // const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'secret-key', { expiresIn: '7d' });
 
       // Рабочий код
       res
@@ -118,8 +117,6 @@ const login = (req, res, next) => {
           httpOnly: true,
           sameSite: 'none',
           secure: true,
-          // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'Lax',
-          // secure: process.env.NODE_ENV === 'production',
         })
         // .send({ token });
         .send(user.toJSON());
