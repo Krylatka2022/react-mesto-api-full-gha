@@ -23,7 +23,7 @@ Backend https://api-krylatka.nomoredomains.rocks
 - "МЕСТО" ([Mesto](https://krylatka2022.github.io/Mesto/)) - 4-9 спринты;
 - "Mесто-реакт" ([Mesto-react](https://krylatka2022.github.io/Mesto-react/)) - 10-11 спринты;
 - "Mесто-реакт-авторизация" ([Mesto-react-auth](https://krylatka2022.github.io/react-mesto-auth/)) - 12 спринт;
-- "Mесто-backend" ([Проект Mesto фронтенд + бэкенд](https://github.com/Krylatka2022/express-mesto-gha.git)) - 13-14 спринты
+- "Mесто-backend" ([Проект Mesto бэкенд](https://github.com/Krylatka2022/express-mesto-gha.git)) - 13-14 спринты
 
 ### Стек технологий:
 
